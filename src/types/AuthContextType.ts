@@ -3,6 +3,7 @@ import { Admins } from "./Admins";
 export interface AuthContextType {
     admin: Admins | null,
     isAuthenticated: boolean,
-    LOGINADMIN: (admin: Admins) => void;
+    LOGINADMIN: (email: string, password: string) => Promise<boolean>;
     LOGOUT: () => void;
+    loading: boolean
 }

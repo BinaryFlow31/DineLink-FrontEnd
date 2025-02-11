@@ -1,16 +1,17 @@
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { toast } from "react-hot-toast";
 import Logo from "./../../public/logos/logo-2-temp.png";
 import Loader from "@/components/Loader";
 import { Button } from "@/components/ui/button";
+import useAuth from "@/hooks/useAuth";
+
 
 const AdminLogin = () => {
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
-	const [isLoading, setIsLoading] = useState(false);
-	const navigate = useNavigate();
+    const { LOGINADMIN, loading } = useAuth()!;
+
 
 	const handleLogin = async () => {
 		if (!email || !password) {
@@ -25,43 +26,13 @@ const AdminLogin = () => {
 			toast.error("Password must be at least 6 characters");
 			return;
 		}
+        const result = await LOGINADMIN(email, password);
 
-		performLogin(email, password);
+        if (result) {
+            console.log("Login successful");
+        }
 	};
 
-	const performLogin = async (email: string, password: string) => {
-		setIsLoading(true);
-
-		try {
-			const res = await fetch("http://localhost:8080/login", {
-				method: "POST",
-				headers: {
-					"Content-Type": "application/json",
-				},
-				body: JSON.stringify({ email, password }),
-			});
-
-			const result = await res.json();
-
-			if (result.error) {
-				throw new Error(result.error);
-			}
-
-			if (result) {
-				navigate("/dashboard");
-				toast.success("Login successful");
-			} else {
-				toast.error("Unable to login");
-			}
-		} catch (error) {
-            console.error(error);
-			setEmail("");
-			setPassword("");
-			toast.error("Either email or password is incorrect");
-		} finally {
-			setIsLoading(false);
-		}
-	};
 
 	return (
 		<div className="min-h-screen flex flex-col">
@@ -97,7 +68,7 @@ const AdminLogin = () => {
 							disabled={!email || !password}
 							className="mb-4 w-full sm:w-3/4 transition duration-300 ease-in-out transform bg-[#F3274C] hover:scale-105 text-white py-2"
 						>
-							{isLoading ? <Loader /> : "Login"}
+							{loading ? <Loader /> : "Login"}
 						</Button>
 
 						{/* Forgot Password Link */}

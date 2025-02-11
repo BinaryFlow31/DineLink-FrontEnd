@@ -1,6 +1,6 @@
 import { Admins } from "@/types/Admins";
 import { AuthContextType } from "@/types/AuthContextType";
-import { createContext, ReactNode, useContext, useReducer } from "react";
+import { createContext, ReactNode, useReducer, useState } from "react";
 import toast from "react-hot-toast";
 import axios from 'axios';
 
@@ -40,18 +40,27 @@ const reducer = (
 
 const AuthContextProvider = ({children}: {children: ReactNode}) => {
 	const [{admin, isAuthenticated}, dispatch] = useReducer(reducer, intialState);
+    const [loading, setLoading] = useState(false);
 
-    const LOGINADMIN = async (admin: Admins) => {
-        // Fetch API to authenticate the admin
+    const LOGINADMIN = async (email:string, password:string) => {
+
+        setLoading(true);
         try {
-            const response = await axios.post('/api/auth/login', admin);
+            const response = await axios.post('/api/login', {email, password});
 
             const data = response.data;
 
+            console.log(data);
+
             dispatch({ type: "LOGINADMIN", payload: data });
+
+            return true;
         } catch (error) {
             console.log(error);
             toast.error("Either email or password is incorrect");
+            return false;
+        } finally {
+            setLoading(false);
         }
     }
 
@@ -62,20 +71,10 @@ const AuthContextProvider = ({children}: {children: ReactNode}) => {
     }
 
 	return (
-		<AuthContext.Provider value={{ admin, isAuthenticated, LOGINADMIN, LOGOUT}}>
+		<AuthContext.Provider value={{ admin, isAuthenticated, LOGINADMIN, LOGOUT, loading}}>
 			{children}
 		</AuthContext.Provider>
 	);
 };
 
-const useAuth = () => {
-    const context = useContext(AuthContext);
-
-    if(context === undefined) {
-        throw new Error("useAuth must be used within an AuthContextProvider");
-    }
-
-    return context;
-}
-
-export { AuthContextProvider, useAuth };
+export { AuthContextProvider, AuthContext };
