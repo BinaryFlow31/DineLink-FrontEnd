@@ -1,16 +1,23 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import TableOrder from "./pages/TableOrder";
+import AdminLogin from "./pages/AdminLogin";
+import { Toaster } from "react-hot-toast";
 
 const App = () => {
 	const router = createBrowserRouter([
 		{
-			path: '/',
+			path: '/table',
 			element: <TableOrder />
+		},
+		{
+			path: '/',
+			element: <AdminLogin />
 		}
 	])
 
 	return <div className='bg-gradient min-h-screen w-full'>
 		<RouterProvider router={router} />
+		<Toaster />
 	</div>;
 };
 
