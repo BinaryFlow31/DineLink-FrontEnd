@@ -1,3 +1,4 @@
+import { Menu } from "@/types/Menu";
 import React from "react";
 
 interface MenuItemProps {
@@ -6,21 +7,7 @@ interface MenuItemProps {
 	price: string;
 }
 
-interface MenuItem {
-	name: string;
-	description: string;
-	price: string;
-}
 
-interface SubCategory {
-	subCategory: string;
-	items: MenuItem[];
-}
-
-interface Menu {
-	category: string;
-	subCategories: SubCategory[];
-}
 
 const menu: Menu[] = [
 	{

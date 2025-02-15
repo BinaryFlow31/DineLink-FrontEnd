@@ -11,7 +11,7 @@ const App = () => {
 			element: <AdminLogin />
 		},
 		{
-			path: '/table',
+			path: '/table/:tableNumber',
 			element: <TableOrder />
 		},
 		{
