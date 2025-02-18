@@ -3,6 +3,7 @@ import { useState } from "react";
 import { X } from "lucide-react";
 import { PiHamburgerBold } from "react-icons/pi";
 import { FaRegBell } from "react-icons/fa";
+import { Link } from "react-router-dom";
 // import SearchBar from "./SearchBar";
 
 const HeaderAdmin = () => {
@@ -16,21 +17,21 @@ const HeaderAdmin = () => {
 		<header className='flex shadow-lg py-4 px-2 sm:px-10 bg-white font-sans min-h-[100px] tracking-wide relative z-50'>
 			<div className='flex flex-wrap items-center justify-between gap-1 w-full'>
 				{/* Logo for larger screens */}
-				<a href='#' className='max-sm:hidden'>
+				<Link to='#' className='max-sm:hidden'>
 					<img
 						src='/logos/logo-2-temp.png'
 						alt='logo'
 						className='w-36'
 					/>
-				</a>
+				</Link>
 				{/* Logo for small screens */}
-				<a href='#' className='hidden max-sm:block'>
+				<Link to='#' className='hidden max-sm:block'>
 					<img
 						src='/logos/logo_temp.png'
 						alt='logo'
 						className='w-16'
 					/>
-				</a>
+				</Link>
 
 				{/* Navigation Menu */}
 				<div
@@ -41,13 +42,13 @@ const HeaderAdmin = () => {
 					{/* Navigation Links */}
 					<ul className='lg:flex gap-x-5 max-lg:space-y-3'>
 						<li className='mb-6 hidden max-lg:block'>
-							<a href='#'>
+							<Link to='/admin'>
 								<img
 									src='/logos/logo-2-temp.png'
 									alt='logo'
 									className='w-48'
 								/>
-							</a>
+							</Link>
 						</li>
 						{[
 							"Home",
@@ -61,8 +62,8 @@ const HeaderAdmin = () => {
 								key={index}
 								className='max-lg:border-b border-gray-300 max-lg:py-3 px-3'
 							>
-								<a
-									href='#'
+								<Link
+									to='#'
 									className={`hover:text-[#007bff] block font-semibold text-[15px] ${
 										item === "Home"
 											? "text-[#007bff]"
@@ -70,7 +71,7 @@ const HeaderAdmin = () => {
 									}`}
 								>
 									{item}
-								</a>
+								</Link>
 							</li>
 						))}
 					</ul>

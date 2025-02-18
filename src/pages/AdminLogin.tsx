@@ -5,12 +5,15 @@ import Logo from "./../../public/logos/logo-2-temp.png";
 import Loader from "@/components/Loader";
 import { Button } from "@/components/ui/button";
 import useAuth from "@/hooks/useAuth";
+import { Link, useNavigate } from "react-router-dom";
 
 
 const AdminLogin = () => {
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
     const { LOGINADMIN, loading } = useAuth()!;
+
+	const navigate = useNavigate();
 
 
 	const handleLogin = async () => {
@@ -28,8 +31,17 @@ const AdminLogin = () => {
 		}
         const result = await LOGINADMIN(email, password);
 
-        if (result) {
-            console.log("Login successful");
+		setEmail("");
+		setPassword("");
+
+
+		console.log(result + " asjkfbaweijbq fiabf iaewb ifaewbfi ea");
+
+		console.log(typeof(result)  + "asjkfbaweijbq fiabf iaewb ifaewbfi ea");
+
+        if (result === true) {
+			console.log("Hello");
+            navigate("/admin");
         }
 	};
 
@@ -72,9 +84,9 @@ const AdminLogin = () => {
 						</Button>
 
 						{/* Forgot Password Link */}
-						<a href="/forgot-password" className="text-blue-500 mb-2 text-sm sm:text-base">
+						<Link to="/forgot-password" className="text-blue-500 mb-2 text-sm sm:text-base">
 							Forgot Password?
-						</a>
+						</Link>
 					</div>
 				</div>
 			</div>
