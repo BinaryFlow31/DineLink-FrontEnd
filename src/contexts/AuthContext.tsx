@@ -11,12 +11,14 @@ const intialState = {
 	isAuthenticated: !!JSON.parse(
 		localStorage.getItem("logged-user") || "null"
 	),
+	isAdmin: JSON.parse(localStorage.getItem("logged-user") || 'null')?.role === "ADMIN",
 };
 
 const reducer = (
 	state: {
 		admin: Admins | null;
 		isAuthenticated: boolean;
+		isAdmin: boolean;
 	},
 	action: { type: string; payload: Admins | null }
 ) => {
@@ -26,12 +28,14 @@ const reducer = (
 				...state,
 				admin: action.payload,
 				isAuthenticated: true,
+				isAdmin: true
 			};
 		case "LOGOUT":
 			return {
 				...state,
 				admin: null,
 				isAuthenticated: false,
+				isAdmin: false
 			};
 		default:
 			return state;
@@ -39,22 +43,26 @@ const reducer = (
 };
 
 const AuthContextProvider = ({children}: {children: ReactNode}) => {
-	const [{admin, isAuthenticated}, dispatch] = useReducer(reducer, intialState);
+	const [{admin, isAuthenticated, isAdmin}, dispatch] = useReducer(reducer, intialState);
     const [loading, setLoading] = useState(false);
 
     const LOGINADMIN = async (email:string, password:string) => {
 
         setLoading(true);
         try {
-            const response = await axios.post('/api/login', {email, password});
+            const response = await axios.post('http://localhost:8080/api/v1/auth/login', {email, password});
 
             const data = response.data;
 
             console.log(data);
 
-            dispatch({ type: "LOGINADMIN", payload: data });
-
-            return true;
+			if(data) {
+				localStorage.setItem("logged-user", JSON.stringify(data));
+                localStorage.setItem("token", btoa(`${email}:${password}`));
+				dispatch({ type: "LOGINADMIN", payload: data });
+                return true;
+			}
+			return false;
         } catch (error) {
             console.log(error);
             toast.error("Either email or password is incorrect");
@@ -71,7 +79,7 @@ const AuthContextProvider = ({children}: {children: ReactNode}) => {
     }
 
 	return (
-		<AuthContext.Provider value={{ admin, isAuthenticated, LOGINADMIN, LOGOUT, loading}}>
+		<AuthContext.Provider value={{ admin, isAuthenticated, isAdmin, LOGINADMIN, LOGOUT, loading}}>
 			{children}
 		</AuthContext.Provider>
 	);
