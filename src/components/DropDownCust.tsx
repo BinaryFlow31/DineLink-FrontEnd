@@ -68,7 +68,7 @@ const DropDownCust = () => {
 					</DropdownMenuItem>
                     <DropdownMenuItem>
 						<Plus />
-						<span>New Admin</span>
+						<span><Link to="/admin-form">New Admin</Link></span>
 						{/* <DropdownMenuShortcut>⌘+T</DropdownMenuShortcut> */}
 					</DropdownMenuItem>
 				</DropdownMenuGroup>

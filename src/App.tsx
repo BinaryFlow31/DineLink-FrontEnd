@@ -6,6 +6,7 @@ import AdminDashboard from "./pages/AdminDashboard";
 import useAuth from "./hooks/useAuth";
 import ChefDashboard from "./pages/ChefDashboard";
 import CreateChef from "./pages/CreateChef";
+import CreateAdmin from "./pages/CreateAdmin";
 
 const App = () => {
 	const auth = useAuth()!;
@@ -26,6 +27,9 @@ const App = () => {
 
 					{/* Chef Creation Form */}
 					<Route path="/chef-form" element={isAuthenticated && isAdmin ? <CreateChef /> : <Navigate to="/" />} />
+
+					{/* Admin Creation Form */}
+					<Route path="/admin-form" element={isAuthenticated && isAdmin ? <CreateAdmin /> : <Navigate to="/" />} />
 					
 					{/* Catch-All Route for Unknown URLs */}
 					<Route path="*" element={<Navigate to="/" />} />

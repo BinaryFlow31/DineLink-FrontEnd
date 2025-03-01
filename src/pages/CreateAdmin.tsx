@@ -5,12 +5,12 @@ import { useState } from "react";
 import toast from "react-hot-toast";
 import axios from "axios";
 import Loader from "@/components/Loader";
-const CreateChef = () => {
+const CreateAdmin = () => {
 	const [inputs, setInputs] = useState({
 		name: "",
 		email: "",
 		password: "",
-		role: "chef",
+		role: "admin",
 	});
 
 	const [isLoading, setIsLoading] = useState(false);
@@ -42,19 +42,19 @@ const CreateChef = () => {
 					},
 				}
 			);
-			if(response.status == 201) {
-				toast.success("Chef created successfully!!");
-			}
+            if(response.status === 201) {
+                toast.success("Admin created successfully!!");
+            }
 		} catch (err) {
 			console.error(err);
-			toast.error("Error in creating chef!!");
+			toast.error("Error in creating admin!!");
 		} finally {
 			setIsLoading(false);
 			setInputs({
 				name: "",
 				email: "",
 				password: "",
-				role: "chef",
+				role: "admin",
 			});
 		}
 	};
@@ -71,7 +71,7 @@ const CreateChef = () => {
 								className='mb-6 h-16 sm:h-20'
 							/>
 							<h1 className='text-2xl sm:text-3xl uppercase font-bold mb-4 font-serif leading-snug text-center'>
-								Create Chef
+								Create Admin
 							</h1>
 
 							{/* Name Input */}
@@ -120,4 +120,4 @@ const CreateChef = () => {
 	);
 };
 
-export default CreateChef;
+export default CreateAdmin;
