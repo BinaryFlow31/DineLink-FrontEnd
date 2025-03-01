@@ -21,6 +21,7 @@ import {
 import AvatarCust from "./AvatarCust";
 import useAuth from "@/hooks/useAuth";
 import toast from "react-hot-toast";
+import { Link } from "react-router-dom";
 
 const DropDownCust = () => {
 	const {LOGOUT} = useAuth()!;
@@ -62,7 +63,7 @@ const DropDownCust = () => {
 					</DropdownMenuItem>
 					<DropdownMenuItem>
 						<Plus />
-						<span>New Chef</span>
+						<span><Link to="/chef-form">New Chef</Link></span>
 						{/* <DropdownMenuShortcut>⌘+T</DropdownMenuShortcut> */}
 					</DropdownMenuItem>
                     <DropdownMenuItem>
