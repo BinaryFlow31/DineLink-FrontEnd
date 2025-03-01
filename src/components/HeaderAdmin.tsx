@@ -4,6 +4,8 @@ import { X } from "lucide-react";
 import { PiHamburgerBold } from "react-icons/pi";
 import { FaRegBell } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import DropDownCust from "./DropDownCust";
+
 // import SearchBar from "./SearchBar";
 
 const HeaderAdmin = () => {
@@ -75,8 +77,8 @@ const HeaderAdmin = () => {
 							</li>
 						))}
 					</ul>
+					
 				</div>
-
 				{/* Buttons and Mobile Menu Toggle */}
 				<div className='flex max-lg:ml-auto space-x-4'>
 
@@ -98,6 +100,7 @@ const HeaderAdmin = () => {
 						)}
 					</button>
 				</div>
+				<DropDownCust />
 			</div>
 		</header>
 	);

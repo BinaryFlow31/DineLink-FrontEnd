@@ -7,8 +7,6 @@ interface MenuItemProps {
 	price: string;
 }
 
-
-
 const menu: Menu[] = [
 	{
 		category: "Desserts",

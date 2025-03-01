@@ -34,14 +34,9 @@ const AdminLogin = () => {
 		setEmail("");
 		setPassword("");
 
-
-		console.log(result + " asjkfbaweijbq fiabf iaewb ifaewbfi ea");
-
-		console.log(typeof(result)  + "asjkfbaweijbq fiabf iaewb ifaewbfi ea");
-
         if (result === true) {
-			console.log("Hello");
             navigate("/admin");
+			toast.success("Login Successful!");
         }
 	};
 
