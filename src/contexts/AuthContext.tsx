@@ -30,6 +30,13 @@ const reducer = (
 				isAuthenticated: true,
 				isAdmin: true
 			};
+		case "LOGINCHEF":
+			return {
+				...state,
+				admin: action.payload,
+				isAuthenticated: true,
+				isAdmin: false
+			};
 		case "LOGOUT":
 			return {
 				...state,
@@ -54,12 +61,18 @@ const AuthContextProvider = ({children}: {children: ReactNode}) => {
 
             const data = response.data;
 
-            console.log(data);
+			console.log(data);
 
 			if(data) {
 				localStorage.setItem("logged-user", JSON.stringify(data));
                 localStorage.setItem("token", btoa(`${email}:${password}`));
-				dispatch({ type: "LOGINADMIN", payload: data });
+
+				if(data.role === "ADMIN") {
+					dispatch({ type: "LOGINADMIN", payload: data });
+				} else {
+					dispatch({ type: "LOGINCHEF", payload: data });
+				}
+				
                 return true;
 			}
 			return false;
