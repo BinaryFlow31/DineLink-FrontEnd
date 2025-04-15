@@ -7,6 +7,8 @@ import useAuth from "./hooks/useAuth";
 import ChefDashboard from "./pages/ChefDashboard";
 import CreateChef from "./pages/CreateChef";
 import CreateAdmin from "./pages/CreateAdmin";
+import CartPage from "./pages/CartPage";
+import CheckoutPage from "./pages/CheckoutPage";
 
 const App = () => {
 	const auth = useAuth()!;
@@ -21,6 +23,10 @@ const App = () => {
 					
 					{/* Table Orders */}
 					<Route path="/table/:tableNumber" element={<TableOrder />} />
+
+					<Route path="/cart" element={<CartPage />} />
+
+					<Route path="/checkout" element={<CheckoutPage />} />
 
 					{/* Admin Dashboard */}
 					<Route path="/admin" element={isAuthenticated && isAdmin ? <AdminDashboard /> : <Navigate to="/" />} />

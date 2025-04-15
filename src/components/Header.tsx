@@ -6,7 +6,18 @@ import { LuCookingPot } from "react-icons/lu";
 import SearchBar from "./SearchBar";
 import { Link } from "react-router-dom";
 
-const Header = () => {
+const Header = ({
+	size,
+	selectedItems,
+}: {
+	size: number;
+	selectedItems: {
+		name: string;
+		description: string;
+		price: string;
+		quantity: number;
+	}[];
+}) => {
 	const [menuOpen, setMenuOpen] = useState(false);
 
 	const handleToggle = () => {
@@ -79,12 +90,18 @@ const Header = () => {
 
 				{/* Buttons and Mobile Menu Toggle */}
 				<div className='flex max-lg:ml-auto space-x-4'>
-
 					{/* Cart Button */}
-                    <SearchBar />
-					<button className='lg:hidden bg-white border-2 border-double border-stone-300 rounded-full focus:border-stone-800'>
-						<LuCookingPot className='w-5 h-6' />
-					</button>
+					<SearchBar />
+					<Link to='/cart' state={{ selectedItems }}>
+						<button className='lg:hidden bg-white border-2 border-double border-stone-300 rounded-full focus:border-stone-800 relative'>
+							<LuCookingPot className='w-5 h-6' />
+							{size > 0 && (
+								<span className='absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center'>
+									{size}
+								</span>
+							)}
+						</button>
+					</Link>
 
 					{/* Hamburger Menu */}
 					<button
