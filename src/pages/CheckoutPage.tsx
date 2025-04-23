@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { FiCreditCard, FiUser, FiCalendar, FiLock } from 'react-icons/fi';
+import { useOrders } from '@/contexts/OrderContext';
 
 interface CartItem {
   id: string;
@@ -14,6 +15,7 @@ const CheckoutPage: React.FC = () => {
 
   const location = useLocation();
 	const selectedItems: CartItem[] = location.state?.cartItems || [];
+  const {addOrder} = useOrders();
   const [isProcessing, setIsProcessing] = useState(false);
   const [orderPlaced, setOrderPlaced] = useState(false);
 
@@ -31,6 +33,8 @@ const CheckoutPage: React.FC = () => {
     expiryDate: '',
     cvv: '',
     specialInstructions: '',
+    deliveryOption: 'delivery' as 'delivery' | 'pickup' | 'dine-in',
+    tableNumber: '',
   });
 
   // Calculate order totals
@@ -64,20 +68,42 @@ const CheckoutPage: React.FC = () => {
     setFormData(prev => ({ ...prev, cardNumber: value }));
   };
 
-  // Handle form submission
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsProcessing(true);
+ // Handle form submission
+ const handleSubmit = async (e: React.FormEvent) => {
+  e.preventDefault();
+  setIsProcessing(true);
+  
+  try {
+    // In a real app, you would process payment here
+    // For demo, we'll just simulate a payment processing delay
+    await new Promise(resolve => setTimeout(resolve, 1500));
     
-    // Simulate API call
-    setTimeout(() => {
-      setIsProcessing(false);
-      setOrderPlaced(true);
-      
-      // In a real app, you would clear the cart here
-      // and redirect to order confirmation page
-    }, 2000);
-  };
+    // Create the order
+    addOrder({
+      customerName: formData.name,
+      items: cartItems.map(item => ({
+        id: item.id,
+        name: item.name,
+        price: item.price,
+        quantity: item.quantity,
+      })),
+      ...(formData.deliveryOption === 'dine-in' && { tableNumber: parseInt(formData.tableNumber) }),
+      isTakeaway: formData.deliveryOption === 'pickup',
+      address: formData.deliveryOption === 'delivery' ? formData.address : undefined,
+      phone: formData.phone,
+      email: formData.email,
+      specialInstructions: formData.specialInstructions,
+    });
+    
+    // Mark order as placed
+    setOrderPlaced(true);
+  } catch (error) {
+    console.error('Payment processing failed:', error);
+    // Handle payment failure (show error message, etc.)
+  } finally {
+    setIsProcessing(false);
+  }
+};
 
   if (orderPlaced) {
     return (
